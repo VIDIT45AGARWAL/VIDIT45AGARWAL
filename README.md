@@ -1,16 +1,17 @@
-## Hi there 👋
+# Hi there, I'm Vidit Agarwal 👋
 
-<!--
-**VIDIT45AGARWAL/VIDIT45AGARWAL** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+**Electrical Engineering Undergrad @ IIT (BHU) Varanasi | Open Source Enthusiast | Full-Stack Developer**
 
-Here are some ideas to get you started:
+I am a passionate developer with a strong focus on web development, open-source contributions, and competitive programming. I love building scalable applications, solving algorithmic challenges in C++, and collaborating on open-source projects.
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+### 🚀 About Me
+
+- 🎓 Pursuing a B.Tech in **Electrical Engineering** at **IIT (BHU), Varanasi** (2024–2028).
+- 💻 **Core Team Member** at the Club of Programmers (COPS), IIT BHU, where I mentor students and conduct technical workshops (like Git/GitHub).
+
+### 🛠️ Tech Stack & Skills
+
+* **Languages:** C/C++, JavaScript, TypeScript, Python, SQL, Solidity
+* **Frontend:** ReactJS, Next.js, Tailwind CSS
+* **Backend:** Node.js, Django
+* **Tools & DevOps:** Git, GitHub, Docker, Web3 Tools
