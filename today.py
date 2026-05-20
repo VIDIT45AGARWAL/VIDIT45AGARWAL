@@ -322,15 +322,15 @@ def svg_overwrite(filename, age_data, commit_data, star_data, repo_data, contrib
     """
     tree = etree.parse(filename)
     root = tree.getroot()
-    justify_format(root, 'age_data', age_data, 63)
-    justify_format(root, 'commit_data', commit_data, 62)
-    justify_format(root, 'star_data', star_data, 64)
-    justify_format(root, 'repo_data', repo_data, 64)
-    justify_format(root, 'contrib_data', contrib_data, 58)
-    justify_format(root, 'follower_data', follower_data, 60)
-    justify_format(root, 'loc_data', loc_data[2], 60)
-    justify_format(root, 'loc_add', loc_data[0], 60)
-    justify_format(root, 'loc_del', loc_data[1], 58)
+    justify_format(root, 'age_data', age_data, 72)
+    justify_format(root, 'commit_data', commit_data, 71)
+    justify_format(root, 'star_data', star_data, 73)
+    justify_format(root, 'repo_data', repo_data, 73)
+    justify_format(root, 'contrib_data', contrib_data, 67)
+    justify_format(root, 'follower_data', follower_data, 69)
+    justify_format(root, 'loc_data', loc_data[2], 69)
+    justify_format(root, 'loc_add', loc_data[0], 69)
+    justify_format(root, 'loc_del', loc_data[1], 67)
     tree.write(filename, encoding='utf-8', xml_declaration=True)
 
 
@@ -342,15 +342,20 @@ def justify_format(root, element_id, new_text, length=0):
         new_text = f"{'{:,}'.format(new_text)}"
     new_text = str(new_text)
     
-    # Update the value element
+    # 1. Pad the text to a fixed width (10 characters) using right-justify.
+    # This forces the ones digit to align at the end and locks the dots in place.
+    fixed_width = 10
+    padded_text = new_text.rjust(fixed_width, ' ')
+
+    # 2. Update the value element with the padded text
     element = root.find(f".//*[@id='{element_id}']")
     if element is not None:
-        element.text = new_text
+        element.text = padded_text
         
-    # Dynamically format the dot spacer to be exactly length - len(new_text) characters wide (accounting for the 2 surrounding spaces)
+    # 3. Dynamically format the dot spacer based on the PADDED text length
     dots = root.find(f".//*[@id='{element_id}_dots']")
     if dots is not None:
-        just_len = max(0, length - len(new_text))
+        just_len = max(0, length - len(padded_text))
         if just_len <= 0:
             dots.text = ""
         elif just_len == 1:
