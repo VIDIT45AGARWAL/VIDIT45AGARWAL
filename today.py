@@ -312,7 +312,10 @@ def stars_counter(data):
     Count total stars in repositories owned by me
     """
     total_stars = 0
-    for node in data: total_stars += node['node']['stargazers']['totalCount']
+    if data:
+        for node in data:
+            if node and node.get('node') and node['node'].get('stargazers'):
+                total_stars += node['node']['stargazers'].get('totalCount', 0)
     return total_stars
 
 
