@@ -14,9 +14,7 @@ query ($owner_affiliation: [RepositoryAffiliation], $login: String!, $cursor: St
                 node {
                     ... on Repository {
                         nameWithOwner
-                        stargazers {
-                            totalCount
-                        }
+                        stargazerCount
                     }
                 }
             }

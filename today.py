@@ -94,9 +94,7 @@ def graph_repos_stars(count_type, owner_affiliation, cursor=None, add_loc=0, del
                     node {
                         ... on Repository {
                             nameWithOwner
-                            stargazers {
-                                totalCount
-                            }
+                            stargazerCount
                         }
                     }
                 }
@@ -336,8 +334,12 @@ def stars_counter(data):
     total_stars = 0
     if data:
         for node in data:
-            if node and node.get('node') and node['node'].get('stargazers'):
-                total_stars += node['node']['stargazers'].get('totalCount', 0)
+            if node and node.get('node'):
+                repo_node = node['node']
+                if 'stargazerCount' in repo_node and repo_node['stargazerCount'] is not None:
+                    total_stars += repo_node['stargazerCount']
+                elif repo_node.get('stargazers') and repo_node['stargazers'].get('totalCount') is not None:
+                    total_stars += repo_node['stargazers']['totalCount']
     return total_stars
 
 
