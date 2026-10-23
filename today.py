@@ -85,23 +85,25 @@ def graph_repos_stars(count_type, owner_affiliation, cursor=None, add_loc=0, del
     Uses GitHub's GraphQL v4 API to return my total repository, star, or lines of code count.
     """
     query_count('graph_repos_stars')
+    if count_type == 'stars':
+        # Returns the number of repositories starred by the user
+        query = '''
+        query ($login: String!) {
+            user(login: $login) {
+                starredRepositories {
+                    totalCount
+                }
+            }
+        }'''
+        request = simple_request(graph_repos_stars.__name__, query, {'login': USER_NAME})
+        if request.status_code == 200:
+            return request.json()['data']['user']['starredRepositories']['totalCount']
+
     query = '''
     query ($owner_affiliation: [RepositoryAffiliation], $login: String!, $cursor: String) {
         user(login: $login) {
             repositories(first: 100, after: $cursor, ownerAffiliations: $owner_affiliation) {
                 totalCount
-                edges {
-                    node {
-                        ... on Repository {
-                            nameWithOwner
-                            stargazerCount
-                        }
-                    }
-                }
-                pageInfo {
-                    endCursor
-                    hasNextPage
-                }
             }
         }
     }'''
@@ -110,11 +112,6 @@ def graph_repos_stars(count_type, owner_affiliation, cursor=None, add_loc=0, del
     if request.status_code == 200:
         if count_type == 'repos':
             return request.json()['data']['user']['repositories']['totalCount']
-        elif count_type == 'stars':
-            stars = stars_counter(request.json()['data']['user']['repositories']['edges'])
-            if request.json()['data']['user']['repositories']['pageInfo']['hasNextPage']:
-                stars += graph_repos_stars(count_type, owner_affiliation, request.json()['data']['user']['repositories']['pageInfo']['endCursor'])
-            return stars
 
 
 def recursive_loc(owner, repo_name, data, cache_comment, addition_total=0, deletion_total=0, my_commits=0, cursor=None):

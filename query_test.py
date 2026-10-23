@@ -6,26 +6,14 @@ HEADERS = {'authorization': 'token '+ os.environ['ACCESS_TOKEN']}
 USER_NAME = os.environ['USER_NAME']
 
 query = '''
-query ($owner_affiliation: [RepositoryAffiliation], $login: String!, $cursor: String) {
+query ($login: String!) {
     user(login: $login) {
-        repositories(first: 100, after: $cursor, ownerAffiliations: $owner_affiliation) {
+        starredRepositories {
             totalCount
-            edges {
-                node {
-                    ... on Repository {
-                        nameWithOwner
-                        stargazerCount
-                    }
-                }
-            }
-            pageInfo {
-                endCursor
-                hasNextPage
-            }
         }
     }
 }'''
-variables = {'owner_affiliation': ['OWNER'], 'login': USER_NAME, 'cursor': None}
+variables = {'login': USER_NAME}
 
 request = requests.post('https://api.github.com/graphql', json={'query': query, 'variables':variables}, headers=HEADERS)
 print(json.dumps(request.json(), indent=2))
